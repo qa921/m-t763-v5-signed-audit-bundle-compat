@@ -1,0 +1,15 @@
+name: recovery-tests
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run real-path test suite (dispatch/startup/close/compat)
+        run: node --test tests/
