@@ -1,0 +1,28 @@
+name: audit-chain-verifier-baseline
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  verify-historical-bundles:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Record fixture hash before verification
+        run: |
+          sha256sum fixtures/historical-bundles.json | tee /tmp/before.txt
+      - name: Run independent verifier (baseline, non-gating)
+        run: |
+          set +e
+          node tools/verify-audit-chain.js fixtures/historical-bundles.json > verifier-output.txt 2>&1
+          code=$?
+          echo "=== verifier stdout/stderr ==="
+          cat verifier-output.txt
+          echo "=== verifier exit code: $code ==="
+      - name: Record fixture hash after verification (mutation check)
+        run: |
+          sha256sum fixtures/historical-bundles.json | tee /tmp/after.txt
+          if cmp -s /tmp/before.txt /tmp/after.txt; then echo 'fixture-mutation-check: UNCHANGED'; else echo 'fixture-mutation-check: MUTATED'; fi
