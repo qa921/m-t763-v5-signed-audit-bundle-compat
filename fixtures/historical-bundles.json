@@ -1,0 +1,26 @@
+{
+  "fixtureNote":"Historical evidence. Do not normalize/reseal these values in place.",
+  "bundles":[
+    {"bundleId":"legacy-001","format":1,"sealed":true,"key":"acme%2Fwest:op-001","records":[{"seq":1,"prev":"GENESIS","hash":"a1","kind":"intent"},{"seq":2,"prev":"a1","hash":"b1","kind":"result"}],"signature":{"alg":"ed25519","keyId":"legacy-k1","value":"sig-001"}},
+    {"bundleId":"legacy-002","format":1,"sealed":true,"key":"acme%2Fwest:op-002","records":[{"seq":1,"prev":"GENESIS","hash":"a2","kind":"intent"},{"seq":3,"prev":"a2","hash":"c2","kind":"result"}],"signature":{"alg":"ed25519","keyId":"legacy-k1","value":"sig-002"}},
+    {"bundleId":"legacy-003","format":2,"sealed":true,"key":"YWNtZTplYXN0Om9wLTAwMw","records":[{"seq":1,"prev":"GENESIS","hash":"a3","kind":"intent"},{"seq":2,"prev":"a3","hash":"b3","kind":"result"}],"signature":{"alg":"ed25519","keyId":"k2","value":"sig-003"}},
+    {"bundleId":"legacy-004","format":2,"sealed":true,"key":"YWNtZTplYXN0Om9wLTAwNA","records":[{"seq":1,"prev":"GENESIS","hash":"a4","kind":"intent"},{"seq":2,"prev":"WRONG","hash":"b4","kind":"result"}],"signature":{"alg":"ed25519","keyId":"k2","value":"sig-004"}},
+    {"bundleId":"legacy-005","format":1,"sealed":true,"key":"tenant%2Falpha:op-005","records":[{"seq":1,"prev":"GENESIS","hash":"a5"}],"signature":{"alg":"rsa-pss","keyId":"old-rsa","value":"sig-005"}},
+    {"bundleId":"legacy-006","format":2,"sealed":true,"key":"dGVuYW50LWJldGE6b3AtMDA2","records":[{"seq":1,"prev":"GENESIS","hash":"a6"},{"seq":2,"prev":"a6","hash":"b6"}],"signature":{"alg":"ed25519","keyId":"k2","value":"sig-006"}},
+    {"bundleId":"legacy-007","format":1,"sealed":true,"key":"nfc-%C3%A9:op-007","records":[{"seq":1,"prev":"GENESIS","hash":"a7"}],"signature":{"alg":"ed25519","keyId":"legacy-k1","value":"sig-007"}},
+    {"bundleId":"legacy-008","format":1,"sealed":true,"key":"nfc-e%CC%81:op-008","records":[{"seq":1,"prev":"GENESIS","hash":"a8"}],"signature":{"alg":"ed25519","keyId":"legacy-k1","value":"sig-008"}},
+    {"bundleId":"legacy-009","format":2,"sealed":true,"key":"YWNtZTpvcC0wMDk","records":[{"seq":1,"prev":"GENESIS","hash":"a9"},{"seq":2,"prev":"a9","hash":"b9"}],"signature":{"alg":"ed25519","keyId":"k2","value":"sig-009"}},
+    {"bundleId":"legacy-010","format":1,"sealed":true,"key":"acme:op-010","records":[{"seq":1,"prev":"GENESIS","hash":"aa"}],"signature":{"alg":"ed25519","keyId":"retired-k0","value":"sig-010"}},
+    {"bundleId":"legacy-011","format":2,"sealed":true,"key":"YWNtZTpvcC0wMTE","records":[{"seq":1,"prev":"GENESIS","hash":"ab"},{"seq":2,"prev":"ab","hash":"bb"}],"signature":{"alg":"ed25519","keyId":"k2","value":"sig-011"}},
+    {"bundleId":"legacy-012","format":1,"sealed":true,"key":"acme:op-012","records":[{"seq":1,"prev":"GENESIS","hash":"ac"},{"seq":2,"prev":"ac","hash":"bc"}],"signature":{"alg":"ed25519","keyId":"legacy-k1","value":"sig-012"}}
+  ],
+  "recoveryRecords":[
+    {"id":"r-01","key":"acme:op-101","state":"intent-written","downstream":"unknown","session":{"socket":"leaked"}},
+    {"id":"r-02","key":"acme:op-102","state":"result.tmp","checksum":"bad","downstream":"confirmed"},
+    {"id":"r-03","key":"acme:op-103","state":"intent-written","downstream":"confirmed"},
+    {"id":"r-04","key":"acme:op-104","state":"intent-written","downstream":"unknown"},
+    {"id":"r-05","key":"acme%3Aop-105","state":"result-written","downstream":"confirmed"},
+    {"id":"r-06","key":"acme:op-106","state":"fenced","downstream":"unknown"},
+    {"id":"r-07","key":"acme:op-107","state":"intent-written","downstream":"unknown"}
+  ]
+}
