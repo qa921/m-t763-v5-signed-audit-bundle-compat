@@ -50,9 +50,11 @@ class Gateway {
   // never replayed (contract §7, issues #1/#5/#14/#19).
   // Emits NO audit events — whether recovery may append to the chain is an open
   // policy question (PR #20), so the evidence order is left untouched (issue #3).
+  // Idempotent: entries already fenced/quarantined are never reprocessed.
   async recover() {
     const report = { fenced: 0, quarantined: 0, retained: 0, retriesScheduled: 0, anomalies: [] };
     for (const entry of await this.store.list()) {
+      if (entry.state === 'fenced') continue; // already protected: skip BEFORE re-inspection (idempotent, issue #14)
       const v = this.store.inspect(entry);
       if (!v.ok) {
         await this.store.quarantine(entry, v.reason); // malformed state (issue #1)
@@ -60,7 +62,6 @@ class Gateway {
         report.anomalies.push({ key: entry.key || null, reason: v.reason });
         continue;
       }
-      if (entry.state === 'fenced') continue; // stays fenced, never a retry (issue #14)
       if (entry.downstream === 'unknown') {
         await this.store.fence(entry.key, { reason: 'downstream outcome unknown at crash' }); // issue #19
         report.fenced++;
@@ -79,9 +80,10 @@ class Gateway {
   }
 
   // Idempotent, awaited, bounded shared close (contract §8, issue #12):
-  // closing twice returns the same promise; both transports are always attempted;
-  // admission is stopped immediately so no loop survives a confirmed close.
-  async close() {
+  // closing twice returns the IDENTICAL promise; both transports are always
+  // attempted; admission is stopped immediately so no loop survives a confirmed close.
+  // Deliberately NOT async: an async wrapper would wrap the promise anew per call.
+  close() {
     if (this._closing) return this._closing;
     this.closed = true;
     this._closing = (async () => {
